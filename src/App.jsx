@@ -9,7 +9,6 @@ import {
   all,
   instagramReels,
 } from "./data";
-// import a from './ab/1.jpg';
 
 const App = () => {
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -38,6 +37,25 @@ const App = () => {
   const chunkIntervalRef = useRef(null);
   const screenVideoRef = useRef(null);
   const webcamVideoRef = useRef(null);
+  const audioContextRef = useRef(null);
+  const destinationNodeRef = useRef(null);
+
+  // Handle beforeunload event
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (recording || isUploadingRef.current) {
+        e.preventDefault();
+        e.returnValue = 'Recording or upload is in progress. Are you sure you want to leave?';
+        return e.returnValue;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [recording]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -50,6 +68,9 @@ const App = () => {
       }
       if (webcamVideoRef.current) {
         webcamVideoRef.current.srcObject = null;
+      }
+      if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+        audioContextRef.current.close();
       }
     };
   }, []);
@@ -118,17 +139,40 @@ const App = () => {
   // Request permissions
   const requestPermissions = async () => {
     try {
+      // Initialize audio context to handle echo cancellation
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      destinationNodeRef.current = audioContextRef.current.createMediaStreamDestination();
+
       // Request webcam permissions first
       const webcamStream = await navigator.mediaDevices.getUserMedia({
         video: { width: 320, height: 240 },
-        audio: true,
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        }
       });
-      webcamStreamRef.current = webcamStream;
+      
+      // Create audio processor to prevent echo
+      const sourceNode = audioContextRef.current.createMediaStreamSource(webcamStream);
+      sourceNode.connect(destinationNodeRef.current);
+      
+      // Mute the output to prevent echo while still recording
+      const gainNode = audioContextRef.current.createGain();
+      gainNode.gain.value = 0; // Mute output
+      sourceNode.connect(gainNode);
+      gainNode.connect(audioContextRef.current.destination);
+
+      webcamStreamRef.current = new MediaStream([
+        ...webcamStream.getVideoTracks(),
+        ...destinationNodeRef.current.stream.getAudioTracks()
+      ]);
 
       // Create video element for webcam
       const webcamVideo = document.createElement("video");
       webcamVideoRef.current = webcamVideo;
       webcamVideo.srcObject = webcamStream;
+      webcamVideo.muted = true; // Mute the video element to prevent echo
       webcamVideo.autoplay = true;
       webcamVideo.playsInline = true;
 
@@ -170,6 +214,7 @@ const App = () => {
       screenVideo.srcObject = screenStream;
       screenVideo.autoplay = true;
       screenVideo.playsInline = true;
+      screenVideo.muted = true; // Mute screen video to prevent any audio feedback
 
       // Setup canvas dimensions
       const canvas = canvasRef.current;
@@ -203,6 +248,18 @@ const App = () => {
 
       // Create mixed stream from canvas
       const mixedStream = canvas.captureStream(30);
+
+      // Add audio tracks from both sources
+      if (screenStream.getAudioTracks().length > 0) {
+        screenStream.getAudioTracks().forEach(track => {
+          mixedStream.addTrack(track);
+        });
+      }
+      if (webcamStreamRef.current.getAudioTracks().length > 0) {
+        webcamStreamRef.current.getAudioTracks().forEach(track => {
+          mixedStream.addTrack(track);
+        });
+      }
 
       // Verify the stream has video tracks
       if (mixedStream.getVideoTracks().length === 0) {
@@ -283,6 +340,18 @@ const App = () => {
     try {
       const canvas = canvasRef.current;
       const mixedStream = canvas.captureStream(30);
+
+      // Add audio tracks from both sources
+      if (screenStreamRef.current.getAudioTracks().length > 0) {
+        screenStreamRef.current.getAudioTracks().forEach(track => {
+          mixedStream.addTrack(track);
+        });
+      }
+      if (webcamStreamRef.current.getAudioTracks().length > 0) {
+        webcamStreamRef.current.getAudioTracks().forEach(track => {
+          mixedStream.addTrack(track);
+        });
+      }
 
       // Initialize MediaRecorder with supported mimeType
       const mimeTypes = [
@@ -429,6 +498,103 @@ const App = () => {
     } catch (error) {
       setPermissionError("Failed to get permissions");
     }
+  };
+
+  // Video player component for smoother playback
+  const VideoPlayer = ({ src, title }) => {
+    const videoRef = useRef(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const handleTimeUpdate = () => {
+        setProgress((video.currentTime / video.duration) * 100);
+      };
+
+      video.addEventListener('timeupdate', handleTimeUpdate);
+      return () => {
+        video.removeEventListener('timeupdate', handleTimeUpdate);
+      };
+    }, []);
+
+    const togglePlay = () => {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    };
+
+    return (
+      <div style={{ position: "relative" }}>
+        <video
+          ref={videoRef}
+          src={src}
+          controls={false}
+          style={{
+            width: "100%",
+            borderRadius: "4px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+          }}
+          preload="auto"
+          playsInline
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: "8px",
+            background: "linear-gradient(transparent, rgba(0,0,0,0.7))",
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <button
+              onClick={togglePlay}
+              style={{
+                backgroundColor: "rgba(0,0,0,0.7)",
+                color: "white",
+                border: "none",
+                borderRadius: "50%",
+                width: "36px",
+                height: "36px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              {isPlaying ? "❚❚" : "▶"}
+            </button>
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: "4px",
+              backgroundColor: "rgba(255,255,255,0.2)",
+              borderRadius: "2px",
+            }}
+          >
+            <div
+              style={{
+                width: `${progress}%`,
+                height: "100%",
+                backgroundColor: "#3b82f6",
+                borderRadius: "2px",
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -673,29 +839,12 @@ const App = () => {
                     {video.title}
                   </div>
                   {openMediaIndex.videos === idx && (
-                    <div
-                      style={{
-                        position: "relative",
-                        paddingBottom: "56.25%", // 16:9 aspect ratio
-                        height: 0,
-                        overflow: "hidden",
-                      }}
-                    >
                       <iframe
                         title={video.title}
                         src={video.src}
                         allowFullScreen
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: "100%",
-                          height: "100%",
-                          border: "none",
-                          borderRadius: "4px",
-                        }}
+                        className="w-full h-[315px] rounded-lg"
                       ></iframe>
-                    </div>
                   )}
                 </div>
               ))}
@@ -722,29 +871,12 @@ const App = () => {
                     {recording.title}
                   </div>
                   {openMediaIndex.recordings === idx && (
-                    <div
-                      style={{
-                        position: "relative",
-                        paddingBottom: "56.25%", // 16:9 aspect ratio
-                        height: 0,
-                        overflow: "hidden",
-                      }}
-                    >
                       <iframe
                         title={recording.title}
                         src={recording.src}
                         allowFullScreen
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: "100%",
-                          height: "100%",
-                          border: "none",
-                          borderRadius: "4px",
-                        }}
+                        className="w-full h-[315px] rounded-lg"
                       ></iframe>
-                    </div>
                   )}
                 </div>
               ))}
@@ -768,31 +900,12 @@ const App = () => {
                   >
                     {rec.title}
                   </div>
-                  {openMediaIndex.rec === idx && (
-                    <div
-                      style={{
-                        position: "relative",
-                        paddingBottom: "56.25%", // 16:9 aspect ratio
-                        height: 0,
-                        overflow: "hidden",
-                      }}
-                    >
                       <iframe
                         title={rec.title}
                         src={rec.src}
                         allowFullScreen
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: "100%",
-                          height: "100%",
-                          border: "none",
-                          borderRadius: "4px",
-                        }}
+                        className="w-full h-[315px] rounded-lg"
                       ></iframe>
-                    </div>
-                  )}
                 </div>
               ))}
             </div>

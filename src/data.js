@@ -11,11 +11,14 @@ export const allParagraphs = [
 ];
 export const all = [
   "I know you have completely forgotten me — still disturbing you again",
+  "I guess you know what to do (pre-requisites)",
   "It'll take a minimum of 4 to 5 hours, so...",
   "The recording may be done for the whole time or not - you can do it in parts (1 hour separate segments and upload) or as a single recording (parts might be better, I guess), but only in one sitting",
+  "You need to pause the videos and see/read",
+  "If any video buffer or just load than don't refresh , just simply fast forwrd 5 seconds",
   "Keep your laptop charger with you",
   "Just a wrap-up - no need to cry (stay strong and happy)",
-  "I guess you know what to do (pre-requisites)"
+  
 ];
 
 export const images = [

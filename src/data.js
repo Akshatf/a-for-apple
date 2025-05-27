@@ -17,6 +17,11 @@ export const all = [
   "You need to pause the videos and see/read",
   "If any video buffer or just load than don't refresh , just simply fast forwrd 5 seconds",
   "Keep your laptop charger with you",
+  "Instagram reels can't be recored by inbuilt recorder so use deny the camera persmission and start recording by OBS Studio",
+  "If the recording are not uploading than also do the same, use OBS ",
+  "To upload the OBS Recording link is on previous page",
+  "Ensure no power (battery) Failure",
+  `"On the top left you'll see "Recording part 1234 uploaded successfully (once in every 4 min) if not than OBS" `,
   "Just a wrap-up - no need to cry (stay strong and happy)",
   
 ];
@@ -213,4 +218,56 @@ export const instagramReels = [
     title: "Reel 16 - So me",
     link: "https://www.instagram.com/reel/DJV7crSpuot/?igsh=MWMwcmdtY2l3aGJoYQ==",
   },
+  {
+    title: "Reel 17",
+    link: "https://www.instagram.com/reel/DInQpaop_ZO/?igsh=OW82YW1zd2pkdTN6",
+  },
+  {
+    title: "Reel 18",
+    link: "https://www.instagram.com/reel/DIk_tyVB6--/?igsh=ZGNhNXRxMzNjZXRy",
+  },
+  {
+    title: "Reel 19",
+    link: "https://www.instagram.com/reel/DHopgjLTrq9/?igsh=ZWxqeXI0aW9wOGM5",
+  },
+  {
+    title: "Reel 20",
+    link: "https://www.instagram.com/reel/DFNUHyszw_p/?igsh=anZicTdjaXp2ajNx",
+  },
+  {
+    title: "Reel 21",
+    link: "https://www.instagram.com/reel/DJd5gfUxx_8/?igsh=MXIwYmJrczh0bnIzOA%3D%3D",
+  },
+  {
+    title: "Reel 22",
+    link: "https://www.instagram.com/reel/DJetP6spcYm/?igsh=MTd6N2N6emdod2tkOQ%3D%3D",
+  },
+  {
+    title: "Reel 23",
+    link: "https://www.instagram.com/reel/DJWiOhgyHT2/?igsh=MWp4MmhoanI0MnhnaQ%3D%3D",
+  },
+  {
+    title: "Reel 24",
+    link: "https://www.instagram.com/reel/DJ1rXbtz2hw/?igsh=ejZzYjd1aGx0aGw3",
+  },
+  {
+    title: "Reel 25",
+    link: "https://www.instagram.com/reel/DJ4IJiBoDY-/?igsh=eWpkMjJ5NGc2bHE2",
+  },
+  {
+    title: "Reel 26",
+    link: "https://www.instagram.com/reel/DJ-0UAKSMYi/?igsh=MXU1MTBhbWo4bnZlMA%3D%3D",
+  },
+  {
+    title: "Reel 27",
+    link: "https://www.instagram.com/reel/DJ-vIQ8IVWR/?igsh=anJsdnQ0MjJvbmRv",
+  },
+  {
+    title: "Reel 28",
+    link: "https://www.instagram.com/reel/DJZfRDyOba5/?igsh=cHA2MTdvMmoyamp2",
+  },
+  // {
+  //   title: "Reel 29",
+  //   link: "",
+  // },
 ];

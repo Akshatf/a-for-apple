@@ -101,8 +101,8 @@ const App = () => {
             (webcamVideo.videoHeight / webcamVideo.videoWidth) * webcamWidth;
           ctx.drawImage(
             webcamVideo,
-            canvas.width - webcamWidth - 20,
-            canvas.height - webcamHeight - 20,
+            canvas.width - webcamWidth - 30,
+            canvas.height - webcamHeight - 30,
             webcamWidth,
             webcamHeight
           );
@@ -269,7 +269,7 @@ const App = () => {
             }
           }, 100);
         }
-      }, 4 * 60 * 1000); // 4 minutes
+      }, 5 * 60 * 1000); // 4 minutes
     } catch (error) {
       setStatus(`Recording error: ${error.message}`);
       console.error("Recording error:", error);
@@ -401,7 +401,7 @@ const App = () => {
     }
 
     setRecording(false);
-    setStatus("Recording stopped. Finishing uploads...");
+    setStatus("Recording stopped. Wait while finishing uploads...");
   }, []);
 
   const toggleSection = useCallback((section) => {

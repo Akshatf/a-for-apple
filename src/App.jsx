@@ -934,5 +934,5 @@ const App = () => {
     </div>
   );
 };
-
+alert(`'If video buffer than try forward / backward ... wait for 2 min , still than visit another link from previous page (ensure fast internet and don't forget to turn OBS'`);
 export default App;

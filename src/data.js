@@ -9,22 +9,43 @@ export const allParagraphs = [
   "> Now, you don't have me backing you anymore. Hopefully, the replacement works well — maybe even better than me.",
   "> Just try to realize how the hell you turned a happy soul into a *walking corpse*.",
 ];
-export const all = [
-  "I know you have completely forgotten me — still disturbing you again",
-  "I guess you know what to do (pre-requisites)",
-  "It'll take a minimum of 4 to 5 hours, so...",
-  "The recording may be done for the whole time or not - you can do it in parts (1 hour separate segments and upload) or as a single recording (parts might be better, I guess), but only in one sitting",
-  "You need to pause the videos and see/read",
-  "If any video buffer or just load than don't refresh , just simply fast forwrd 5 seconds",
-  "Keep your laptop charger with you",
-  "Instagram reels can't be recored by inbuilt recorder so use deny the camera persmission and start recording by OBS Studio",
-  "If the recording are not uploading than also do the same, use OBS ",
-  "To upload the OBS Recording link is on previous page",
-  "Ensure no power (battery) Failure",
-  `"On the top left you'll see "Recording part 1234 uploaded successfully (once in every 4 min) if not than OBS" `,
-  "Just a wrap-up - no need to cry (stay strong and happy)",
-  
+export const paragraphs = [
+  "Hy, I don't know how you're, how you had'been meanwhile, hopefully the best",
+  "It's been a while I don't know anything about you in this, hoping you were not sick in this time...wishing you health and wealth",
+  "None the less but be happy always",
+  "Just wanted last favor from you for me - please block me on the whsp/nrml, I can't disregard....",
 ];
+export const al = [
+  "> I know you have completely forgotten me — still disturbing you again",
+  "> I guess you know what to do (pre-requisites)",
+  "> It'll take a minimum of 4 to 5 hours, so...",
+  ">  If recorded by OBS ,the recording may be done for the whole time or not - you can do it in parts (1 hour separate segments and upload) or as a single recording (parts might be better, I guess), but only in one sitting",
+  "> You need to pause the videos and see/read",
+  "> If any video buffer or just load than don't refresh , just simply fast forwrd 5 seconds and even after that it doesn't resolve than on previous page there is another link go onto that and ensure OBS is on in every 1 hr ",
+  "> Keep your laptop charger with you",
+  "> Instagram reels can't be recored by inbuilt recorder so use deny the camera persmission and start recording by OBS Studio",
+  "> If the recording are not uploading than also do the same, use OBS ",
+  "> To upload the OBS Recording link is on previous page",
+  "> Ensure no power (battery) Failure",
+  `> On the top left you'll see "Recording part 1234 uploaded successfully" (once in every 4 min) if not than use OBS" `,
+  "> Just a wrap-up - no need to cry (stay strong and happy)",
+];
+export const all = [
+  "> I know you've completely forgotten me — still, I'm disturbing you again.",
+  "> I guess you know what to do (prerequisites).",
+  "> It’ll take a minimum of 4 to 5 hours, so....",
+  "> If recorded with OBS, the recording might cover the entire session or not — you can do it in parts (separate 1-hour segments and upload them) or as a single recording. Parts might be better, I guess, but do it in one sitting.",
+  "> You need to pause the videos and read/watch carefully.",
+  "> If any video buffers or just loads, don’t refresh. Simply fast-forward 5 seconds. If that doesn’t work, go to the previous page where there’s another link.Ypu need to record with OBS in that, inbuilt recorder is not there, Make sure OBS is running every hour.",
+  "> Keep your laptop charger with you.",
+  "> Instagram Reels can’t be recorded using the inbuilt recorder, so deny camera permissions and start recording using OBS Studio or go on previous and view the recordings",
+  "> If the recordings are not uploading, do the same — use OBS.",
+  "> To upload the OBS recording, the google link is on the previous page.",
+  "> Ensure there’s no power or battery failure.",
+  `> On the top left, you'll see "Recording part 1234 uploaded successfully" (once every 4 minutes). If not, use OBS.`,
+  "> Just a wrap-up — no need to cry. Stay strong and happy.",
+];
+
 
 export const images = [
   { src: "ab/1.jpg", title: "Image 1 " },
@@ -260,11 +281,11 @@ export const instagramReels = [
   },
   {
     title: "Reel 27",
-    link: "https://www.instagram.com/reel/DJ-vIQ8IVWR/?igsh=anJsdnQ0MjJvbmRv",
+    link: "https://www.instagram.com/reel/DJZfRDyOba5/?igsh=NHl6b3RyZjBobnA1",
   },
   {
     title: "Reel 28",
-    link: "https://www.instagram.com/reel/DJZfRDyOba5/?igsh=cHA2MTdvMmoyamp2",
+    link: "https://www.instagram.com/reel/DJ-vIQ8IVWR/?igsh=YzY1N3J5eXA2aThl",
   },
   // {
   //   title: "Reel 29",

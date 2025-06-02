@@ -7,6 +7,7 @@ import {
   sr,
   gola,
   all,
+  paragraphs,
   instagramReels,
 } from "./data";
 import { Analytics } from "@vercel/analytics/react";
@@ -27,6 +28,7 @@ const App = () => {
   });
   const [chunkCounter, setChunkCounter] = useState(1);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState("");
 
   const canvasRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -38,6 +40,28 @@ const App = () => {
   const chunkIntervalRef = useRef(null);
   const screenVideoRef = useRef(null);
   const webcamVideoRef = useRef(null);
+
+  // Update IST time every second
+  // Update IST time every second
+  useEffect(() => {
+    const updateTime = () => {
+      const options = {
+        timeZone: 'Asia/Kolkata',
+        hour12: true,
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+      };
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString('en-US', options));
+    };
+
+    // Update immediately and then every second
+    updateTime();
+    const intervalId = setInterval(updateTime, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -450,91 +474,110 @@ const App = () => {
           padding: "12px",
           backgroundColor: "#2a2a2a",
           borderBottom: "1px solid #444",
+          position: "relative",
         }}
       >
-        <h1
-          style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "4px" }}
-        >
-          Screen Recorder
-        </h1>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ flex: 1 }}>
-            <p style={{ fontSize: "14px" }}>{status}</p>
-            {permissionError && (
-              <p style={{ fontSize: "12px", color: "#ef4444" }}>
-                {permissionError}
-              </p>
-            )}
-            {uploadProgress > 0 && uploadProgress < 100 && (
-              <div
-                style={{
-                  width: "100%",
-                  height: "4px",
-                  backgroundColor: "#444",
-                  borderRadius: "2px",
-                  marginTop: "4px",
-                }}
-              >
-                <div
-                  style={{
-                    width: `${uploadProgress}%`,
-                    height: "100%",
-                    backgroundColor: "#3b82f6",
-                    borderRadius: "2px",
-                  }}
-                ></div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div>
+            <h1
+              style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "4px" }}
+            >
+              Screen Recorder
+            </h1>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: "14px" }}>{status}</p>
+                {permissionError && (
+                  <p style={{ fontSize: "12px", color: "#ef4444" }}>
+                    {permissionError}
+                  </p>
+                )}
+                {uploadProgress > 0 && uploadProgress < 100 && (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "4px",
+                      backgroundColor: "#444",
+                      borderRadius: "2px",
+                      marginTop: "4px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: `${uploadProgress}%`,
+                        height: "100%",
+                        backgroundColor: "#3b82f6",
+                        borderRadius: "2px",
+                      }}
+                    ></div>
+                  </div>
+                )}
               </div>
-            )}
+              {!permissionGranted ? (
+                <button
+                  onClick={retryPermissions}
+                  style={{
+                    backgroundColor: "#3b82f6",
+                    color: "white",
+                    padding: "6px 12px",
+                    borderRadius: "4px",
+                    border: "none",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  }}
+                >
+                  Grant Permissions
+                </button>
+              ) : recording ? (
+                <button
+                  onClick={stopRecording}
+                  style={{
+                    backgroundColor: "#ef4444",
+                    color: "white",
+                    padding: "6px 12px",
+                    borderRadius: "4px",
+                    border: "none",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  }}
+                >
+                  Stop Recording
+                </button>
+              ) : (
+                <button
+                  onClick={startRecording}
+                  style={{
+                    backgroundColor: "#3b82f6",
+                    color: "white",
+                    padding: "6px 12px",
+                    borderRadius: "4px",
+                    border: "none",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  }}
+                >
+                  Restart Recording
+                </button>
+              )}
+            </div>
           </div>
-          {!permissionGranted ? (
-            <button
-              onClick={retryPermissions}
-              style={{
-                backgroundColor: "#3b82f6",
-                color: "white",
-                padding: "6px 12px",
-                borderRadius: "4px",
-                border: "none",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontSize: "14px",
-              }}
-            >
-              Grant Permissions
-            </button>
-          ) : recording ? (
-            <button
-              onClick={stopRecording}
-              style={{
-                backgroundColor: "#ef4444",
-                color: "white",
-                padding: "6px 12px",
-                borderRadius: "4px",
-                border: "none",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontSize: "14px",
-              }}
-            >
-              Stop Recording
-            </button>
-          ) : (
-            <button
-              onClick={startRecording}
-              style={{
-                backgroundColor: "#3b82f6",
-                color: "white",
-                padding: "6px 12px",
-                borderRadius: "4px",
-                border: "none",
-                cursor: "pointer",
-                fontWeight: "bold",
-                fontSize: "14px",
-              }}
-            >
-              Restart Recording
-            </button>
-          )}
+          
+          {/* IST Clock */}
+          <div style={{
+            position: "absolute",
+            right: "12px",
+            top: "12px",
+            backgroundColor: "#3b82f6",
+            padding: "6px 12px",
+            borderRadius: "4px",
+            fontSize: "14px",
+            fontWeight: "bold",
+          }}>
+            IST: {currentTime}
+          </div>
         </div>
       </div>
 
@@ -564,6 +607,7 @@ const App = () => {
             { id: "recordings", label: "Me" },
             { id: "rec", label: "kan" },
             { id: "instagram", label: "Instagram" },
+            { id: "paragraph", label: "Me" },
           ].map((item) => (
             <div
               key={item.id}
@@ -597,6 +641,18 @@ const App = () => {
           {openSection === "message" && (
             <div>
               {allParagraphs.map((para, idx) => (
+                <p
+                  key={idx}
+                  style={{ marginBottom: "16px", lineHeight: "1.5" }}
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
+          )}
+          {openSection === "paragraph" && (
+            <div>
+              {paragraphs.map((para, idx) => (
                 <p
                   key={idx}
                   style={{ marginBottom: "16px", lineHeight: "1.5" }}
@@ -870,64 +926,6 @@ const App = () => {
               </a>
             </button>
           </div>
-
-          {/* {videoURLs.length > 0 && (
-            <div style={{ marginTop: '32px' }}>
-              <h2 style={{ 
-                fontSize: '18px', 
-                fontWeight: 'bold', 
-                marginBottom: '16px',
-                paddingBottom: '8px',
-                borderBottom: '1px solid #444'
-              }}>
-                Recorded Videos
-              </h2>
-              <div style={{ display: 'grid', gap: '16px' }}>
-                {videoURLs.map((video, idx) => (
-                  <div key={idx} style={{ 
-                    border: '1px solid #444', 
-                    borderRadius: '8px',
-                    padding: '12px'
-                  }}>
-                    <h3 style={{ 
-                      fontWeight: 'bold', 
-                      marginBottom: '8px',
-                      color: '#3b82f6'
-                    }}>
-                      {video.name}
-                    </h3>
-                    <video 
-                      src={video.url} 
-                      controls 
-                      style={{ 
-                        width: '100%', 
-                        maxHeight: '300px',
-                        borderRadius: '4px',
-                        backgroundColor: '#000'
-                      }}
-                    />
-                    <div style={{ marginTop: '8px' }}>
-                      <a
-                        href={video.url}
-                        download={`${video.name}.webm`}
-                        style={{
-                          display: 'inline-block',
-                          backgroundColor: '#3b82f6',
-                          color: 'white',
-                          padding: '6px 12px',
-                          borderRadius: '4px',
-                          textDecoration: 'none',
-                          fontSize: '14px'
-                        }}
-                      >
-                        Download
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )} */}
         </div>
       </div>
 

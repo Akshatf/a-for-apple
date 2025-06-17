@@ -221,7 +221,7 @@ export const instagramReels = [
   },
   {
     title: "Reel 12",
-    link: "https://www.instagram.com/reel/DJHuM_3zagH/?igsh=bDF5dXdjaGp4MzBy",
+    link: "https://www.instagram.com/reel/DJ-vIQ8IVWR/?igsh=YzY1N3J5eXA2aThl",
   },
   {
     title: "Reel 13",
@@ -285,7 +285,7 @@ export const instagramReels = [
   },
   {
     title: "Reel 28",
-    link: "https://www.instagram.com/reel/DJ-vIQ8IVWR/?igsh=YzY1N3J5eXA2aThl",
+    link: "https://www.instagram.com/reel/DHREo-jNnwG/?igsh=MTk2cHd4MjZmdXBlbA==",
   },
   {
     title: "Reel 29",
@@ -296,25 +296,26 @@ export const instagramReels = [
     link: "https://www.instagram.com/reel/DKaKS1DSTwJ/?igsh=MWlxcXU1c2Exa3d0cA%3D%3D",
   },
   {
-    title: "Reel 31",
-    link: "https://www.instagram.com/reel/DKza-EtNJK4/?igsh=MXRjOGR4MjMzZXZwcA%3D%3D",
-  },
-  {
     title: "Reel 32",
     link: "https://www.instagram.com/reel/DKcj4Zhz8N0/?igsh=MWs3ZWEzdW4ybGN5dw%3D%3D",
   },
+{
+  title: `Reel 33 - Last liness... Btw I'm MR. <span style="text-decoration: overline; text-decoration-thickness: 2px;">AKF</span> FOOL`,
+  link: "https://www.instagram.com/reel/DKwxU5btbWB/?igsh=MXg3Z24ycDgzNDI1ZQ%3D%3D",
+},
+
   {
-    title: "Reel 33",
-    link: "https://www.instagram.com/reel/DKwxU5btbWB/?igsh=MXg3Z24ycDgzNDI1ZQ%3D%3D",
-  },
-  {
-    title: "Reel 34",
+    title: "Reel 34 - Hihi mujhe puchne tk ka chance ni mila",
     link: "https://www.instagram.com/reel/DKsKxN8SCfL/?igsh=eXU2Y3MzdmxpN2F5",
   },
   {
     title: "Reel 35",
-    link: "https://www.instagram.com/reel/DKetzxrRBy4/?igsh=ODU5ZzA4eDF4eTdu",
+    link: "https://www.instagram.com/reel/DK1cdBcP59a/?igsh=MWdlaXhqaTVsZjZuZw==",
   },
+  // {
+  //   title: "Reel 35",
+  //   link: "https://www.instagram.com/reel/DKetzxrRBy4/?igsh=ODU5ZzA4eDF4eTdu",
+  // },
   {
     title: "Reel 36",
     link: "https://www.instagram.com/reel/DGJCCxTh4sX/?igsh=aHJxY3RhaXExbnY4",
@@ -324,16 +325,20 @@ export const instagramReels = [
     link: "https://www.instagram.com/reel/DJtz92_z-k5/?igsh=bnZ3aGF5dWptMjIx",
   },
   {
-    title: "Reel 38",
+    title: "Reel 38 ik my fault",
     link: "https://www.instagram.com/reel/DJrOWYnt16_/?igsh=bmh2ejZ3aDE0czkw",
   },
   {
     title: "Reel 39",
     link: "https://www.instagram.com/reel/DFlDOdgTCII/?igsh=eWh0ODZvcDhxc21y",
   },
-  {
+  // {
+  //   title: "Reel 40",
+  //   link: "https://www.instagram.com/reel/DHWH2jFzrJH/?igsh=cmF6dWhnM2Y3bHo3",
+  // },
+    {
     title: "Reel 40",
-    link: "https://www.instagram.com/reel/DHWH2jFzrJH/?igsh=cmF6dWhnM2Y3bHo3",
+    link: "https://www.instagram.com/reel/DJraTBeznZ1/?igsh=amRzODB5cjAycGll",
   },
   {
     title: "Reel 41",
@@ -349,30 +354,38 @@ export const instagramReels = [
   },
   {
     title: "Reel 44",
-    link: "https://www.instagram.com/reel/DJraTBeznZ1/?igsh=amRzODB5cjAycGll",
+    link: "https://www.instagram.com/reel/DGP9rYoPfOo/?igsh=NjhqcXh3NTA2aWly",
   },
   {
-    title: "Reel 45",
-    link: "",
+    title: "Reel 45- IG LAST LINES",
+    link: "https://www.instagram.com/reel/DHyTFt4p2ng/?igsh=MzVocmVvbGhlZXZr",
   },
   {
     title: "Reel 46",
-    link: "",
+    link: "https://www.instagram.com/reel/DKza-EtNJK4/?igsh=MXRjOGR4MjMzZXZwcA%3D%3D",
   },
-  {
-    title: "Reel 47",
-    link: "",
-  },
-  {
-    title: "Reel 48",
-    link: "",
-  },
-  {
-    title: "Reel 49",
-    link: "",
-  },
-  {
-    title: "Reel 50",
-    link: "",
-  },
+  // {
+  //   title: "Reel 45",
+  //   link: "",
+  // },
+  // {
+  //   title: "Reel 46",
+  //   link: "",
+  // },
+  // {
+  //   title: "Reel 47",
+  //   link: "",
+  // },
+  // {
+  //   title: "Reel 48",
+  //   link: "",
+  // },
+  // {
+  //   title: "Reel 49",
+  //   link: "",
+  // },
+  // {
+  //   title: "Reel 50",
+  //   link: "",
+  // },
 ];

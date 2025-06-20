@@ -1,3 +1,5 @@
+import "./assets/data.css"
+
 export const allParagraphs = [
   "> I never ever wanted to do this, but yes, I'm being forced to. You should know how much you've destroyed my mental and emotional health, and how well you played with my emotions.",
   "> Yes, I never wanted to hurt you. I always wanted to see you happy. Even while doing this, there's a fight going on between my mind and heart — wondering if I should share this, knowing it will surely affect you...",
@@ -63,6 +65,7 @@ export const images = [
   { src: "ab/13.jpg", title: "Image 13 " },
   { src: "ab/14.jpg", title: "Image 14 " },
   { src: "ab/16.jpg", title: "Image 15 " },
+  { src: "ab/i.jpg", title: "Image 16 " },
   {
     src: "ab/15.jpg",
     title: "Image 16 - I'll be grateful to you for life. I was supposed to travel on this train...",
@@ -140,6 +143,10 @@ export const sr = [
   {
     src: "https://drive.google.com/file/d/1A_HnRJbrrphcae-ripSKUECr0gvpObQ5/preview",
     title: "w-m-3",
+  },
+  {
+    src: "https://drive.google.com/file/d/1-ACYaARMY72Zd_Fj3mVfC3ExGcAZimYn/preview",
+    title: "w-m-4",
   },
 ];
 
@@ -299,10 +306,15 @@ export const instagramReels = [
     title: "Reel 32",
     link: "https://www.instagram.com/reel/DKcj4Zhz8N0/?igsh=MWs3ZWEzdW4ybGN5dw%3D%3D",
   },
-{
-  title: `Reel 33 - Last liness... Btw I'm MR. <span style="text-decoration: overline; text-decoration-thickness: 2px;">AKF</span> FOOL`,
-  link: "https://www.instagram.com/reel/DKwxU5btbWB/?igsh=MXg3Z24ycDgzNDI1ZQ%3D%3D",
-},
+  {
+    title: (
+      <>
+        Reel 33 - Last liness... Btw I'm MR.{" "}
+        <span className="overline-akf">AKF</span> FOOL
+      </>
+    ),
+    link: "https://www.instagram.com/reel/DKwxU5btbWB/?igsh=MXg3Z24ycDgzNDI1ZQ%3D%3D",
+  },
 
   {
     title: "Reel 34 - Hihi mujhe puchne tk ka chance ni mila",

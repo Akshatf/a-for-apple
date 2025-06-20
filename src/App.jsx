@@ -29,6 +29,7 @@ const App = () => {
   const [chunkCounter, setChunkCounter] = useState(1);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
 
   const canvasRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -41,7 +42,19 @@ const App = () => {
   const screenVideoRef = useRef(null);
   const webcamVideoRef = useRef(null);
 
-  // Update IST time every second
+  // Check for mobile devices
+  useEffect(() => {
+    const checkIfMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isMobile = /iphone|ipad|ipod|android|blackberry|windows phone/g.test(userAgent);
+      setIsMobile(isMobile || window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
   // Update IST time every second
   useEffect(() => {
     const updateTime = () => {
@@ -56,7 +69,6 @@ const App = () => {
       setCurrentTime(now.toLocaleTimeString('en-US', options));
     };
 
-    // Update immediately and then every second
     updateTime();
     const intervalId = setInterval(updateTime, 1000);
 
@@ -94,10 +106,10 @@ const App = () => {
 
   // Start recording when permissions are granted
   useEffect(() => {
-    if (permissionGranted && !recording) {
+    if (permissionGranted && !recording && !isMobile) {
       startRecording();
     }
-  }, [permissionGranted, recording]);
+  }, [permissionGranted, recording, isMobile]);
 
   // Drawing function for canvas
   const drawFrame = useCallback(() => {
@@ -113,12 +125,9 @@ const App = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     try {
-      // Only draw if the video is ready
       if (screenVideo.readyState >= HTMLMediaElement.HAVE_METADATA) {
-        // Draw screen capture
         ctx.drawImage(screenVideo, 0, 0, canvas.width, canvas.height);
 
-        // Draw webcam overlay if ready
         if (webcamVideo.readyState >= HTMLMediaElement.HAVE_METADATA) {
           const webcamWidth = canvas.width / 5;
           const webcamHeight =
@@ -142,19 +151,18 @@ const App = () => {
   // Request permissions
   const requestPermissions = async () => {
     try {
-      // Request webcam permissions first
       const webcamStream = await navigator.mediaDevices.getUserMedia({
         video: { width: 320, height: 240 },
         audio: true,
       });
       webcamStreamRef.current = webcamStream;
 
-      // Create video element for webcam
       const webcamVideo = document.createElement("video");
       webcamVideoRef.current = webcamVideo;
       webcamVideo.srcObject = webcamStream;
       webcamVideo.autoplay = true;
       webcamVideo.playsInline = true;
+      webcamVideo.muted = true; // Mute the webcam video element
 
       setPermissionGranted(true);
       setStatus("Webcam permissions granted - ready to record");
@@ -182,6 +190,11 @@ const App = () => {
       });
       screenStreamRef.current = screenStream;
 
+      // Mute all audio tracks to prevent playback during recording
+      screenStream.getAudioTracks().forEach(track => {
+        track.enabled = false;
+      });
+
       // Handle when user stops screen sharing
       screenStream.getVideoTracks()[0].onended = () => {
         setStatus("Screen sharing ended by user");
@@ -194,6 +207,7 @@ const App = () => {
       screenVideo.srcObject = screenStream;
       screenVideo.autoplay = true;
       screenVideo.playsInline = true;
+      screenVideo.muted = true; // Mute the screen video element
 
       // Setup canvas dimensions
       const canvas = canvasRef.current;
@@ -293,7 +307,7 @@ const App = () => {
             }
           }, 100);
         }
-      }, 5 * 60 * 1000); // 4 minutes
+      }, 5 * 60 * 1000); // 5 minutes
     } catch (error) {
       setStatus(`Recording error: ${error.message}`);
       console.error("Recording error:", error);
@@ -454,6 +468,26 @@ const App = () => {
       setPermissionError("Failed to get permissions");
     }
   };
+
+  if (isMobile) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#1a1a1a',
+        color: 'white',
+        padding: '20px',
+        textAlign: 'center'
+      }}>
+        <div>
+          <h1 style={{ fontSize: '24px', marginBottom: '20px' }}>PLEASE OPEN ON DESKTOP TO VIEW</h1>
+          <p style={{ marginBottom: '20px' }}>This application is optimized for desktop use only.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -733,7 +767,7 @@ const App = () => {
                     <div
                       style={{
                         position: "relative",
-                        paddingBottom: "56.25%", // 16:9 aspect ratio
+                        paddingBottom: "56.25%",
                         height: 0,
                         overflow: "hidden",
                       }}
@@ -782,7 +816,7 @@ const App = () => {
                     <div
                       style={{
                         position: "relative",
-                        paddingBottom: "56.25%", // 16:9 aspect ratio
+                        paddingBottom: "56.25%",
                         height: 0,
                         overflow: "hidden",
                       }}
@@ -829,7 +863,7 @@ const App = () => {
                     <div
                       style={{
                         position: "relative",
-                        paddingBottom: "56.25%", // 16:9 aspect ratio
+                        paddingBottom: "56.25%",
                         height: 0,
                         overflow: "hidden",
                       }}
@@ -870,7 +904,7 @@ const App = () => {
                       marginBottom: "8px",
                     }}
                   >
-                    {reel.title}
+                    {typeof reel.title === 'string' ? reel.title : reel.title}
                   </div>
                   {openMediaIndex.reels === idx && (
                     <a
@@ -934,5 +968,6 @@ const App = () => {
     </div>
   );
 };
+
 alert(`'If video buffer than try forward / backward ... wait for 2 min , still than visit another link from previous page (ensure fast internet and don't forget to turn OBS'`);
 export default App;
